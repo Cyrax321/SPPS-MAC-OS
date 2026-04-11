@@ -1,0 +1,47 @@
+# CI: Static check — verify repository structure and dataset integrity.
+# Does NOT build or run benchmarks (requires macOS + Apple Silicon).
+#
+# This workflow only validates:
+#   1. All required source files are present
+#   2. Dataset files pass node-count checks
+
+name: Repository Check
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  structure-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check required source files
+        run: |
+          required=(
+            experiments/block_a_correctness.cpp
+            experiments/block_b_linearity.cpp
+            experiments/block_c_benchmarks.cpp
+            experiments/block_d_louds.cpp
+            experiments/block_e_compression.cpp
+            experiments/block_f_tail_latency.cpp
+            experiments/block_g_downstream.cpp
+            experiments/block_h_worked_examples.cpp
+            experiments/tree.proto
+            experiments/tree.fbs
+            CITATION.cff
+            README.md
+          )
+          for f in "${required[@]}"; do
+            if [ ! -f "$f" ]; then
+              echo "MISSING: $f"
+              exit 1
+            fi
+            echo "OK: $f"
+          done
+
+      - name: Verify dataset node counts
+        run: bash scripts/verify_datasets.sh
