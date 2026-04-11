@@ -34,4 +34,13 @@ build block_h_worked_examples ""                    "block_h_worked_examples.cpp
 build profiler             "$PBFLAGS $LIBS"         "$PB_SRC profiler.cpp"
 
 echo ""
+echo ""
+echo "Build complete: $(date)"
 echo "=== All blocks built successfully ==="
+
+# Print sizes of built binaries
+echo ""
+echo "=== Binary sizes ==="
+ls -lh block_a_correctness block_b_linearity block_c_benchmarks \
+        block_d_louds block_e_compression block_f_tail_latency \
+        block_g_downstream block_h_worked_examples profiler 2>/dev/null || true
