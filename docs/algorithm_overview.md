@@ -98,3 +98,16 @@ Output: children[] adjacency, root
 11. root ← degree-1 node ≠ v_virt
 12. return children[] from M[], root
 ```
+
+## Complexity Analysis
+
+| Operation | Time | Space |
+|---|---|---|
+| Encode | O(n) | O(n) |
+| Decode | O(n) | O(n) |
+| DFS traversal | O(n) | O(depth) |
+| **Total roundtrip** | **O(n)** | **O(n)** |
+
+All four auxiliary arrays (D, parent, neighborSum, ChildRank) are computed
+in a single O(n) pass over the children adjacency list. The peeling loop
+runs exactly n−1 iterations, each in amortized O(1).
