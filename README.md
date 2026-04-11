@@ -185,12 +185,12 @@ Verifies SPPS encode → decode round-trip correctness through exhaustive fuzzin
 
 | Test | Count | Result |
 |---|---|---|
-| A1: General fuzzing (random trees) | 10,000 | ✅ 10,000/10,000 PASS |
-| A2: Directed-edge stress test | 1,000 | ✅ 1,000/1,000 PASS |
-| A3: Sibling-order stress test | 1,000 | ✅ 1,000/1,000 PASS |
-| A4: Worked example (n=9) | 1 | ✅ PASS |
-| A5: Boundary cases (n=1,2,3) | — | ✅ PASS |
-| **Total** | **12,006** | **✅ ALL PASS** |
+| A1: General fuzzing (random trees) | 10,000 |  10,000/10,000 PASS |
+| A2: Directed-edge stress test | 1,000 |  1,000/1,000 PASS |
+| A3: Sibling-order stress test | 1,000 |  1,000/1,000 PASS |
+| A4: Worked example (n=9) | 1 |  PASS |
+| A5: Boundary cases (n=1,2,3) | — |  PASS |
+| **Total** | **12,006** | ** ALL PASS** |
 
 ---
 
@@ -200,10 +200,10 @@ Measures SPPS encode time (30 trials/size) across 4 topologies and fits a linear
 
 | Topology | Slope (ns/node) | R² | Linear? |
 |---|---|---|---|
-| B1: Path Graph | 7.52 | 0.998818 | ✅ Yes |
-| B2: Star Graph | 6.18 | 0.998267 | ✅ Yes |
-| B3: Balanced Binary Tree | 8.11 | 0.999944 | ✅ Yes (R²≥0.999) |
-| B4: Random AST-Like (12-point fine-grained) | 17.32 | 0.999939 | ✅ Yes (R²≥0.999) |
+| B1: Path Graph | 7.52 | 0.998818 |  Yes |
+| B2: Star Graph | 6.18 | 0.998267 |  Yes |
+| B3: Balanced Binary Tree | 8.11 | 0.999944 |  Yes (R²≥0.999) |
+| B4: Random AST-Like (12-point fine-grained) | 17.32 | 0.999939 |  Yes (R²≥0.999) |
 
 > **Cache note:** The 22.5 ns/node spike at n≈1.5M in B4 is an M1 L2 cache boundary effect (four encoding arrays ~55 MB > 4 MB L2). The prefetcher adapts at larger n, returning to ≈18 ns/node.
 
