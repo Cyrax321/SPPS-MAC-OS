@@ -58,3 +58,17 @@ clang++ -std=c++17 -O3 -I. -I/opt/homebrew/include \
 
 `-O3` enables auto-vectorization, loop unrolling, and inlining.
 No profile-guided optimization (PGO) or link-time optimization (LTO) was used.
+
+## Variance Interpretation
+
+Observed CV% values across all datasets:
+
+| Method | Encode CV% (mean) | Stability |
+|---|---|---|
+| SPPS | 2.26% | ✅ Stable |
+| (all datasets < 3%) | | ✅ |
+
+A CV% below 5% indicates that the measurement is not dominated by
+system noise, OS scheduling jitter, or thermal throttling on the M1.
+The M1's efficiency cores and unified memory architecture exhibit
+exceptionally stable memory latency, contributing to low variance.
