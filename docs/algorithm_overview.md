@@ -53,3 +53,48 @@ Time complexity: O(n) — two linear passes over S.
 | Encode time | ~7–18 ns/node (Apple M1) |
 | Decode time | ~5–17 ns/node (Apple M1) |
 | Correctness | Bijection — proven by Prüfer theory extension |
+
+## Pseudocode
+
+### Encode (Algorithm 1)
+
+```
+Input:  rooted ordered tree T, root r, n nodes
+Output: sequence S of length n-2
+
+1.  Augment T: add virtual node v_virt = n+1, edge r—v_virt
+2.  Compute ChildRank[], parent[], neighborSum[], D[] in O(n)
+3.  ptr ← first node in [1..n+1] with D[ptr] = 1
+4.  leaf ← ptr
+5.  for i = 1 to n:
+6.    if D[leaf] = 0: break
+7.    P ← neighborSum[leaf]
+8.    d ← (parent[leaf]=P) ? +1 : ((parent[P]=leaf) ? -1 : +1)
+9.    k ← ChildRank[leaf]
+10.   S.append(d × (P × N + k))
+11.   D[P] -= 1;  neighborSum[P] -= leaf
+12.   if D[P]=1 and P < ptr: leaf ← P
+13.   else: advance ptr to next D[ptr]=1; leaf ← ptr
+14. S.pop_back()   // drop last entry (encodes root implicitly)
+15. return S
+```
+
+### Decode (Algorithm 2)
+
+```
+Input:  sequence S, n
+Output: children[] adjacency, root
+
+1.  D_dec[v] ← 1 for all v              // start with degree 1
+2.  for ω in S: D_dec[|ω|/N] += 1       // recover out-degrees
+3.  Build BasePointer[] (prefix sum of out-degrees)
+4.  Init M[0..sum_degrees] ← 0
+5.  ptr ← first v with D_dec[v] = 1; leaf ← ptr
+6.  for ω in S:
+7.    P ← |ω| / N;  k ← |ω| % N
+8.    M[BasePointer[P] + k] ← leaf
+9.    D_dec[P] -= 1
+10.   advance leaf similarly to encode
+11. root ← degree-1 node ≠ v_virt
+12. return children[] from M[], root
+```
