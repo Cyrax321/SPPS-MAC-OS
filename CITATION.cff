@@ -10,3 +10,13 @@ license: "All Rights Reserved"
 abstract: >
   SPPS is a novel O(n) tree serialization algorithm based on an extension
   of the classical Prüfer sequence encoding. Submitted to ESA 2026.
+keywords:
+  - tree serialization
+  - Prüfer sequence
+  - algorithm
+  - benchmarking
+  - Apple Silicon
+  - macOS
+  - LOUDS
+  - data structures
+  - ESA 2026
