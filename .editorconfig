@@ -19,3 +19,10 @@ trim_trailing_whitespace = false
 
 [Makefile]
 indent_style = tab
+
+[*.{json,yml,yaml}]
+indent_style = space
+indent_size = 2
+
+[*.txt]
+trim_trailing_whitespace = false
