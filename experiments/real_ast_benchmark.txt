@@ -1,1 +1,0 @@
-real_ast_benchmark copy.txt

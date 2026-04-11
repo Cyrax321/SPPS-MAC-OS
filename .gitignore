@@ -43,11 +43,13 @@ experiments/profiler_isolated
 *.idb
 *.pdb
 
-# ── Large raw dataset files (tens/hundreds of MB) ────────────
-# These are inputs, not source; store in cloud / data registry
-experiments/real_ast_benchmark copy.txt
+# ── Large raw dataset files (hundreds of MB — GitHub limit) ─────
+# These cannot be stored in git without LFS; regenerate from source
 experiments/xmark.xml
 experiments/sqlite3_ast.json
+
+# ── Dataset symlink (replaced by the real file below) ────────────
+experiments/real_ast_benchmark.txt
 
 # ── SQLite amalgamation (vendored, not project source) ───────
 experiments/sqlite3.c

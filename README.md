@@ -322,13 +322,77 @@ Step-by-step encode/decode traces for paper verification (n=7 figure example and
 
 ## Datasets
 
-| Dataset | n (nodes) | Source | File |
-|---|---|---|---|
-| Django AST | 2,325,575 | Django 4.2 full AST (`gen_django_ast.cpp`) | `real_ast_benchmark.txt` |
-| sqlite3 AST | 503,141 | sqlite3.c (8.6 MB, 266K lines) via `gen_sqlite3_ast.py` | `sqlite3_ast_benchmark.txt` |
-| XMark XML | 500,000 | XMark benchmark generator (`xmlgen`), 266 MB raw XML | `xmark_ast_benchmark.txt` |
+All datasets are encoded as plain-text **edge-list files** (format below) and
+used directly by every block's C++ benchmark program.
 
-> Large raw files (`real_ast_benchmark copy.txt`, `xmark.xml`, `sqlite3_ast.json`) are excluded from the repository via `.gitignore` and must be regenerated or downloaded separately.
+### Edge-List Format
+
+```
+<n>              ← first line: number of nodes
+<u1> <v1>        ← subsequent lines: directed edges u → v (parent → child)
+<u2> <v2>
+...
+```
+
+Nodes are 1-indexed integers. The root is always node `1`.
+
+---
+
+### ✅ Files Committed to This Repository
+
+| File | Size | Dataset | n (nodes) |
+|---|---|---|---|
+| `experiments/real_ast_benchmark copy.txt` | 33 MB | **Django AST** | 2,325,575 |
+| `experiments/sqlite3_ast_edges.txt` | 6.4 MB | **sqlite3 AST** | 503,141 |
+| `experiments/xmark_edges.txt` | 6.5 MB | **XMark XML** | 500,000 |
+
+These three files are **all that is needed** to reproduce every benchmark result in the paper.
+
+---
+
+### ❌ Raw Source Files (Too Large for GitHub — Must Regenerate)
+
+The following raw source files exceed GitHub's 100 MB limit and are excluded via `.gitignore`. They were used only to *generate* the edge-list files above.
+
+| File | Size | Purpose | How to regenerate |
+|---|---|---|---|
+| `sqlite3_ast.json` | 669 MB | sqlite3 AST as JSON | Run `python3 gen_sqlite3_ast.py sqlite3.c > sqlite3_ast.json` |
+| `xmark.xml` | 266 MB | XMark benchmark XML | Download from [xmlgen](http://www.xml-benchmark.org/) and run `xmlgen -f 1.0 > xmark.xml` |
+
+#### Regenerating sqlite3 edge list
+
+```bash
+# 1. Download sqlite3 amalgamation
+curl -O https://www.sqlite.org/2024/sqlite-amalgamation-3450300.zip
+unzip sqlite-amalgamation-3450300.zip
+
+# 2. Parse AST
+python3 gen_sqlite3_ast.py sqlite3.c > sqlite3_ast.json
+
+# 3. Extract edge list
+# (see gen_sqlite3_ast.py in the experiments directory)
+```
+
+#### Regenerating XMark edge list
+
+```bash
+# 1. Generate XMark XML (xmlgen must be built from source)
+# https://www.xml-benchmark.org/
+./xmlgen -f 1.0 > xmark.xml      # produces ~266 MB, n≈500K nodes
+
+# 2. Parse XML to edge list
+# (see xmark_parser in the experiments directory)
+```
+
+---
+
+### Dataset Properties
+
+| Dataset | n (nodes) | Depth | Source | Type |
+|---|---|---|---|---|
+| **Django AST** | 2,325,575 | 28 | Django 4.2 full codebase AST | Real-world, unbalanced |
+| **sqlite3 AST** | 503,141 | — | sqlite3.c (8.6 MB, 266K lines) | Real-world, deep paths |
+| **XMark XML** | 500,000 | — | XMark benchmark generator | Synthetic, XML hierarchy |
 
 ---
 
