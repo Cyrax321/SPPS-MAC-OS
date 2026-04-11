@@ -21,3 +21,11 @@ We will respond within 14 days for any review-period concerns.
 |---|---|
 | Review snapshot (0.4.0) | ✅ Current |
 | All earlier versions | ❌ Not supported |
+
+## Reproducibility Contact
+
+For reproducibility issues that are not security-related,
+please open a GitHub issue using the **Reproducibility Issue** template.
+
+For hardware-specific questions (non-Apple-Silicon results),
+refer to `docs/cache_analysis.md` for explanation of M1-specific behaviour.
